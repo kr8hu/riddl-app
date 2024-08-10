@@ -37,7 +37,7 @@
 
     padding: 1rem;
 
-    background-color: var(--color-main);
+    background-color: var(--color-button-background);
     color: var(--color-accent);
 
     border-radius: 5px;

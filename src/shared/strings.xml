@@ -6,4 +6,6 @@
     <string name="riddle_no_description">Nem elérhető</string>
     <string name="gameboard_input_title">Írd be a megoldást</string>
     <string name="gameboard_input_description">vagy nyomd meg az enter gombot</string>
+    <string name="summary_category_stats">Kategóriában elért eredmények</string>
+    <string name="summary_game_stats">Legutóbbi játékban elért eredmények</string>
 </resources>

@@ -33,7 +33,8 @@ const pendingTime: number = 2500;
 */
 interface Props {
     riddles: Array<IRiddle>;
-    onPlayerLeave: () => void;
+    onLeave: () => void;
+    onFinished: (solved: Array<any>) => void;
 }
 
 
@@ -43,11 +44,12 @@ interface Props {
  * @param riddles 
  * @returns 
  */
-function Gameboard({ riddles, onPlayerLeave }: Props) {
+function Gameboard({ riddles, onFinished, onLeave }: Props) {
     //States
     const [index, setIndex] = useState<number>(0);
     const [progress, setProgress] = useState<number>(progressTotal);
     const [isRunning, setIsRunning] = useState<boolean>(false);
+    const [solved, setSolved] = useState<Array<any>>([]);
 
 
     //Refs
@@ -97,8 +99,8 @@ function Gameboard({ riddles, onPlayerLeave }: Props) {
 
         setIsRunning(false);
         setProgress(progressTotal);
-        setIndex((current: number) => index + 1 !== riddles.length ? current + 1 : 0);
-    }, [index, riddles.length]);
+        setIndex((current: number) => current + 1);
+    }, []);
 
 
     /**
@@ -124,6 +126,12 @@ function Gameboard({ riddles, onPlayerLeave }: Props) {
     const checkUserGuess = () => {
         if (inputRef?.current?.value === riddles[index].solution) {
             alert("A válasz helyes.");
+
+            setSolved((current: Array<any>) => [
+                ...current,
+                riddles[index].id
+            ]);
+
             finalizeRiddle();
         } else {
             alert("A válasz helytelen.");
@@ -146,7 +154,7 @@ function Gameboard({ riddles, onPlayerLeave }: Props) {
         const handleEscapeKeydown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
                 const confirmed = window.confirm("Biztosan kilépsz?");
-                if (confirmed) onPlayerLeave();
+                if (confirmed) onLeave();
             }
         }
 
@@ -183,6 +191,18 @@ function Gameboard({ riddles, onPlayerLeave }: Props) {
             initializeRiddle();
         }
     }, [isRunning]);
+
+
+    /**
+     * useEffect
+     * 
+     */
+    useEffect(() => {
+        if (index === riddles.length) {
+            onFinished(solved);
+        }
+        //eslint-disable-next-line
+    }, [index, riddles.length]);
 
 
     return (

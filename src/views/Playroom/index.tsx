@@ -1,6 +1,10 @@
 //Onsen UI
 import { Page } from 'react-onsenui';
 
+//Views
+import Home from '../Home';
+import Summary from '../Summary';
+
 //Components
 import Gameboard from '../../components/Gameboard';
 
@@ -16,67 +20,51 @@ import styles from './Playroom.module.css';
 */
 interface Props {
     navigator: any;
-    dataset: Array<IRiddle>;
+    riddles: Array<IRiddle>;
 }
 
 
 /**
  * 
- * @param dataset 
+ * @param riddles 
  * @returns 
  */
-function Playroom({ navigator, dataset }: Props) {
-    const dummyData = [
-        {
-            image: "https://zeevector.com/wp-content/uploads/Playstation-Logo-vector-PNG.png",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-            solution: "playstation",
-            completed: false,
-        },
-        {
-            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Xbox_one_logo.svg/2048px-Xbox_one_logo.svg.png",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            solution: "xbox",
-            completed: false,
-        },
-        {
-            image: "https://static.wikia.nocookie.net/logopedia/images/b/b3/God_of_War_2016_%28Icon%29.svg/revision/latest?cb=20221110002755",
-            description: "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-            solution: "god of war",
-            completed: false,
-        },
-        {
-            image: "https://zeevector.com/wp-content/uploads/Playstation-Logo-vector-PNG.png",
-            description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-            solution: "playstation",
-            completed: false,
-        },
-        {
-            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Xbox_one_logo.svg/2048px-Xbox_one_logo.svg.png",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            solution: "xbox",
-            completed: false,
-        },
-    ];
-
-
+function Playroom({ navigator, riddles }: Props) {
     /**
      * handlePlayerLeave
      * 
      * Játék elhagyását kezelő funkció
      * 
      */
-    const handlePlayerLeave = () => {
-        navigator.popPage();
+    const handleOnLeave = () => {
+        navigator.resetPage({ component: Home });
     }
+
+
+    /**
+     * handleOnSolved
+     * 
+     * Kategória teljesítésekor lefutó funkció
+     * 
+     */
+    const handleOnFinish = (solved: Array<any>) => {
+        navigator.replacePage({
+            component: Summary,
+            props: {
+                riddles,
+                solved
+            }
+        });
+    };
 
 
     return (
         <Page>
             <div className={styles.container}>
-                <Gameboard 
-                    riddles={dummyData}
-                    onPlayerLeave={handlePlayerLeave} />
+                <Gameboard
+                    riddles={riddles}
+                    onFinished={handleOnFinish}
+                    onLeave={handleOnLeave} />
             </div>
         </Page>
     )

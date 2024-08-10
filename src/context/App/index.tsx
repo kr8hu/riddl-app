@@ -12,27 +12,17 @@ import {
 
 
 /**
- * Props 
+ * Interfaces 
  * 
  */
 interface Props {
     children: any;
 }
 
-
-/**
- * IAppState 
- * 
- */
 interface IAppState {
     userdata: any;
 }
 
-
-/**
- * IAppContext 
- * 
- */
 interface IAppContext {
     appState: IAppState;
     setAppState: (type: any, payload: any) => void;
