@@ -1,5 +1,5 @@
 //Interfaces
-import ITableItem from '../../interfaces/TableData';
+import ITableItem from '../../interfaces/TableItem';
 
 //Styles
 import styles from './Table.module.css';
@@ -15,6 +15,8 @@ interface Props {
 
 /**
  * Table
+ * 
+ * Táblázatot megjelenítő komponens
  * 
  * @returns 
  */

@@ -1,5 +1,8 @@
 //Components
-import Text from '../Text';
+import Text from '../../../../components/Text';
+
+//Shared
+import { url } from '../../../../shared/const';
 
 //Styles
 import styles from './Riddle.module.css';
@@ -17,21 +20,29 @@ interface Props {
 /**
  * Riddle
  * 
- * Egy rejtvényt megjelenítő komponens
  * @returns 
  */
 function Riddle({ image, description }: Props) {
+    /**
+     * Variables
+     */
+    //Kép elérési útvonala
+    const imageUrl = `${url}/public/images/${image}`;
+
+
     return (
         <div className={styles.container}>
             <div className={styles.row}>
+                {/* Rejtvény képe */}
                 <div className={styles.col}>
                     <div className={styles.wrapper}>
                         <img
                             alt='riddle'
                             className={styles.image}
-                            src={image} />
+                            src={imageUrl} />
                     </div>
                 </div>
+                {/* Rejtvény leírása */}
                 <div className={styles.col}>
                     <Text
                         className={styles.descriptionTitle}

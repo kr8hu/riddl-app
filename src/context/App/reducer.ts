@@ -1,11 +1,24 @@
 //Interfaces
-import ReducerAction from '../../interfaces/ReducerAction';
+import IReducerAction from '../../interfaces/ReducerAction';
+import IState from '../../interfaces/State';
 
 //Shared
-import { actionTypes } from '../../shared/const';
+import {
+    actionTypes,
+    initialUserdata
+} from '../../shared/const';
 
 
-export const reducer = (state: any, action: ReducerAction) => {
+/**
+ * reducer
+ * 
+ * A state objektum frissítése a műveletnek megfelelően.
+ * 
+ * @param state 
+ * @param action 
+ * @returns 
+ */
+export const reducer = (state: IState, action: IReducerAction) => {
     switch (action.type) {
         case actionTypes.app.SET_USERDATA:
             return {
@@ -18,5 +31,5 @@ export const reducer = (state: any, action: ReducerAction) => {
 }
 
 export const initialState = {
-    userdata: null
+    userdata: initialUserdata
 }

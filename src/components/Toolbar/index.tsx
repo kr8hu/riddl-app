@@ -1,5 +1,7 @@
-//Components
+//Onsen UI
 import { BackButton } from 'react-onsenui';
+
+//Components
 import Text from '../Text';
 
 //Styles
@@ -12,10 +14,10 @@ import styles from './Toolbar.module.css';
 interface Props {
     backButton?: boolean;
     title?: string;
-    buttons?: ToolbarButton | Array<ToolbarButton>;
+    buttons?: IToolbarButton | Array<IToolbarButton>;
 }
 
-interface ToolbarButton {
+interface IToolbarButton {
     icon: string;
     text?: string;
     onClick(): () => void;
@@ -25,31 +27,35 @@ interface ToolbarButton {
 /**
  * Toolbar
  * 
- * @param param0 
  * @returns 
  */
 function Toolbar({ backButton, title, buttons }: Props) {
     /**
-     * backButtonComponent
-     * 
-     * Vissza gomb feltételes renderelése
+     * Variables
      */
-    const backButtonComponent = backButton ? <BackButton /> : null;
+    
+    //Vissza gomb feltételes renderelése
+    const renderBackButton = backButton ? <BackButton /> : null;
 
 
     return (
         <div className={styles.container}>
             <div className={styles.row}>
+                {/* Vissza gomb */}
                 <div className={styles.col}>
-                    {backButtonComponent}
+                    {renderBackButton}
                 </div>
+
+                {/* Címsor */}
                 <div className={styles.col}>
                     <Text className={styles.title}>
                         {title}
                     </Text>
                 </div>
-                <div className={styles.col}>
 
+                {/* További gombok */}
+                <div className={styles.col}>
+                    {/* TODO */}
                 </div>
             </div>
         </div>

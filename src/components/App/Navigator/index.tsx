@@ -21,11 +21,7 @@ import {
  * @returns
  */
 function Navigator() {
-    /**
-     * initialRoute
-     * 
-     * Első megjelenített oldal meghatározása
-     */
+    //Elsőként megjelenített oldal
     const initialRoute = { component: Initialize };
 
 

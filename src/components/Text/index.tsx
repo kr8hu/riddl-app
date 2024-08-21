@@ -5,7 +5,7 @@ import {
 } from 'react';
 
 //Shared
-import { appname } from '../../shared/const';
+import { appName } from '../../shared/const';
 
 //Styles
 import styles from './Text.module.css';
@@ -26,25 +26,21 @@ interface Props {
 /**
  * Text 
  * 
+ * Szöveget megjelenítő komponens
+ * 
  * @returns
  */
 function Text(props: Props) {
-    //State
+    /**
+     * States
+     */
     const [text, setText] = useState<string>("");
 
 
-    //Effects
-    useEffect(() => {
-        const text = getTextContent(props.node);
-        setText(text);
-    }, [props.node]);
-
-
     /**
-     * classNames
-     * 
+     * Variables
      */
-    const classNames = `${styles.container} ${props.className}`;
+    const classNames: string = `${styles.container} ${props.className}`;
 
 
     /**
@@ -58,13 +54,17 @@ function Text(props: Props) {
     /**
      * getTextContent
      * 
-     * @param node 
+     * Visszaadja a megadott nodehoz tartozó szöveges tartalmat egy tárolt XML sztringből.
+     * 
+     * 
+     * @param {string} node - Az XML csomópont `name` attribútuma
+     * @returns {string} A megfelelő XML csomópont szöveges tartalma, vagy egy üres sztring, ha nincs egyezés.
      */
     const getTextContent = (node: string) => {
-        let x, xmldoc, text = "";
+        let x: any, xmldoc: any, text: string = "";
 
-        const parser = new DOMParser();
-        const src = `${localStorage.getItem(`${appname}_strings`)}`;
+        const parser: any = new DOMParser();
+        const src: string = `${localStorage.getItem(`${appName}_strings`)}`;
 
         xmldoc = parser.parseFromString(src, "text/xml");
         x = xmldoc.getElementsByTagName('string');
@@ -78,6 +78,17 @@ function Text(props: Props) {
 
         return text;
     }
+
+
+    /**
+     * useEffect
+     * 
+     * Ha van megadva node, a szöveg lekérése az xml fájlból és tárolás a stateben
+     */
+    useEffect(() => {
+        const text = getTextContent(props.node);
+        setText(text);
+    }, [props.node]);
 
 
     return (

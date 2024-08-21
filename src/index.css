@@ -1,5 +1,5 @@
-:root {
-    .progress-bar {
-        height: 5px !important;
-    }
+:root {}
+
+.progress-bar {
+    height: 5px !important;
 }

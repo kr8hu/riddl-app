@@ -18,6 +18,13 @@
     text-transform: lowercase;
 }
 
+.welcome {
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    font-size: 1.15rem;
+    margin-bottom: 1.5rem;
+}
+
 .wrapper {
     box-sizing: border-box;
     height: 300px;
@@ -50,4 +57,12 @@
     justify-content: center;
     align-items: center;
     padding: 0 2rem;
+}
+
+.verinfo {
+    font-family: monospace;
+    font-weight: 300;
+    font-size: 0.75rem;
+    color: gray;
+    margin-top: 2rem;
 }

@@ -1,15 +1,25 @@
 //Axios
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 //Shared
 import { url } from "./shared/const";
 
-const api = axios.create({
+
+//Axios config
+const config: AxiosRequestConfig = {
     baseURL: url,
+    timeout: 10000,
     headers: {
         "Content-Type": "application/json",
-    },
-    timeout: 10000
-});
+    }
+}
+
+
+/** 
+ * api
+ * 
+ * axios HTTP kérés létrehozása a megadott konfigurációval
+*/
+const api = axios.create(config);
 
 export default api;

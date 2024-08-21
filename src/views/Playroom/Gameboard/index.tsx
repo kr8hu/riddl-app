@@ -1,17 +1,31 @@
 //React
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useState,
+    useRef,
+    useContext
+} from 'react';
+
+//Context
+import { AppContext } from '../../../context/App';
 
 //Onsen UI
-import {
-    ProgressBar
-} from 'react-onsenui';
+import { ProgressBar } from 'react-onsenui';
 
 //Components
-import Text from '../Text';
-import Riddle from '../Riddle';
+import Text from '../../../components/Text';
+import Riddle from './Riddle';
 
 //Interfaces
-import IRiddle from '../../interfaces/Riddle';
+import IRiddle from '../../../interfaces/Riddle';
+
+//Shared
+import { actionTypes } from '../../../shared/const';
+
+//Services
+import UserService from '../../../services/UserService';
+import RiddleService from '../../../services/RiddleService';
 
 //Styles
 import styles from './Gameboard.module.css';
@@ -33,8 +47,7 @@ const pendingTime: number = 2500;
 */
 interface Props {
     riddles: Array<IRiddle>;
-    onLeave: () => void;
-    onFinished: (solved: Array<any>) => void;
+    onExit: (solved: Array<any>) => void;
 }
 
 
@@ -44,16 +57,32 @@ interface Props {
  * @param riddles 
  * @returns 
  */
-function Gameboard({ riddles, onFinished, onLeave }: Props) {
-    //States
+function Gameboard({ riddles, onExit }: Props) {
+    /**
+     * Context
+     */
+    const { appState, setAppState } = useContext(AppContext);
+
+
+    /**
+     * States
+     */
     const [index, setIndex] = useState<number>(0);
     const [progress, setProgress] = useState<number>(progressTotal);
     const [isRunning, setIsRunning] = useState<boolean>(false);
-    const [solved, setSolved] = useState<Array<any>>([]);
+    const [solved, setSolved] = useState<Array<IRiddle>>([]);
 
 
-    //Refs
+    /**
+     * Refs
+     */
     const inputRef = useRef<HTMLInputElement>(null);
+
+
+    /**
+     * Variables
+     */
+    const image = `${riddles[index]?._id}.png`
 
 
     /**
@@ -123,18 +152,66 @@ function Gameboard({ riddles, onFinished, onLeave }: Props) {
      * A felhasználó által megadott tipp ellenörzése
      * 
      */
-    const checkUserGuess = () => {
-        if (inputRef?.current?.value === riddles[index].solution) {
-            alert("A válasz helyes.");
+    const checkUserGuess = async () => {
+        try {
+            //Ellenörzéshez szükséges adatok
+            const data = {
+                id: riddles[index]._id,
+                guess: inputRef?.current?.value
+            }
 
-            setSolved((current: Array<any>) => [
-                ...current,
-                riddles[index].id
-            ]);
+            //Tipp ellenörzése szerver oldalon
+            const response = await RiddleService.validation(data);
 
-            finalizeRiddle();
-        } else {
-            alert("A válasz helytelen.");
+            //Eredmény
+            if (!response.payload) {
+                alert("A válasz helytelen");
+            } else {
+                //A megoldott rejtvény hozzáadása a user adatait tartalmazó adatbázisban
+                updateUserSolvedRiddles(riddles[index]._id);
+
+                //Visszajelzés a felhasználónak
+                alert("A válasz helyes.");
+
+                //Megoldott rejtvény felvétele a statebe
+                setSolved((current: Array<IRiddle>) => [
+                    ...current,
+                    riddles[index]._id
+                ]);
+
+                //Jelenlegi rejtvény lezárása
+                finalizeRiddle();
+            }
+        }
+        //Hibakezelés
+        catch (error) {
+            alert("Hiba történt.");
+            onExit(solved);
+        }
+    }
+
+
+    /**
+     * updateUserSolvedRiddles
+     * 
+     */
+    const updateUserSolvedRiddles = async (riddleId: string) => {
+        try {
+            const userSolvedRiddles = appState.userdata.solved;
+
+            const data = { solved: [...userSolvedRiddles, riddleId] };
+            const response = await UserService.update(appState.userdata._id, data);
+
+            if (!response.payload) {
+                alert("Hiba történt.");
+                onExit(solved);
+            }
+
+            setAppState(actionTypes.app.SET_USERDATA, response.payload);
+        }
+        catch (error) {
+            alert("Hiba történt.");
+            onExit(solved);
         }
     }
 
@@ -154,7 +231,7 @@ function Gameboard({ riddles, onFinished, onLeave }: Props) {
         const handleEscapeKeydown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
                 const confirmed = window.confirm("Biztosan kilépsz?");
-                if (confirmed) onLeave();
+                if (confirmed) onExit(solved);
             }
         }
 
@@ -164,7 +241,7 @@ function Gameboard({ riddles, onFinished, onLeave }: Props) {
             window.removeEventListener('keydown', handleEscapeKeydown);
         }
         //eslint-disable-next-line
-    }, []);
+    }, [solved]);
 
 
     /**
@@ -199,7 +276,7 @@ function Gameboard({ riddles, onFinished, onLeave }: Props) {
      */
     useEffect(() => {
         if (index === riddles.length) {
-            onFinished(solved);
+            onExit(solved);
         }
         //eslint-disable-next-line
     }, [index, riddles.length]);
@@ -211,7 +288,7 @@ function Gameboard({ riddles, onFinished, onLeave }: Props) {
                 {/* Bal oldali szekció */}
                 <div className={styles.col}>
                     <Riddle
-                        image={riddles[index]?.image}
+                        image={image}
                         description={riddles[index]?.description} />
                 </div>
 

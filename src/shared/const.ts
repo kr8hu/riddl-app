@@ -1,9 +1,14 @@
+//Interfaces
+import IUserdata from "../interfaces/Userdata";
+
+
 /**
  * App version
  * 
  */
-export const appname = "Riddl";
-export const appversion = "0.0.0";
+export const appName = "riddl";
+export const appVersion = "0.5";
+export const versionCode = 1;
 
 
 /**
@@ -20,11 +25,12 @@ export const server = {
  * Url
  * 
  */
-export const url = `${process.env.REACT_APP_SERVER_PROTOCOL}://${server.dev}/`;
+export const url: string = `${process.env.REACT_APP_SERVER_PROTOCOL}://${server.dev}/`;
 
 
 /**
  * Action Types
+ * 
  */
 export const actionTypes = {
     app: {
@@ -35,6 +41,7 @@ export const actionTypes = {
 
 /**
  * Animation Types
+ * 
  */
 export const animationTypes = {
     LIFT: "lift",
@@ -45,6 +52,7 @@ export const animationTypes = {
 
 /**
  * Loading States
+ * 
  */
 export const loadingStates = [
     {
@@ -68,6 +76,16 @@ export const loadingStates = [
         description: "Adatok fogadása a weboldaltól"
     },
     {
+        id: 4,
+        name: "Kommunikáció a szerverrel",
+        description: "Verzió ellenörzése"
+    },
+    {
+        id: 5,
+        name: "Kommunikáció a szerverrel",
+        description: "Felhasználói adatok ellenörzése"
+    },
+    {
         id: -1,
         name: "Kész",
         description: "Adatok betöltve, alkalmazás megnyitása"
@@ -77,22 +95,29 @@ export const loadingStates = [
 
 /**
  * Loading Progresses
+ * 
  */
 export const loadingProgress = {
     init: 0,
     texts: 1,
     send: 2,
     receive: 3,
+    check: 4,
+    connect: 5,
     completed: -1
 }
 
 
 /**
- * Request Methods
+ * initialUserdata
+ * 
  */
-export const requestMethods = {
-    GET: "GET",
-    POST: "POST",
-    PUT: "PUT",
-    DELETE: "DELETE"
+export const initialUserdata: IUserdata = {
+    _id: '',
+    username: '',
+    email: '',
+    role: 0,
+    completed: [],
+    solved: [],
+    points: 0,
 }

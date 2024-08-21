@@ -17,7 +17,10 @@ import Navigator from "./Navigator";
  * @returns 
  */
 function App() {
-  //Effects
+  /**
+   * useEffect
+   * 
+   */
   useEffect(() => {
     ons.ready(() => {
       ons.platform.select("chrome");

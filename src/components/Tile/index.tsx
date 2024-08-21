@@ -12,6 +12,7 @@ import styles from './Tiles.module.css';
  * Interfaces
  */
 interface Props {
+    className?: any;
     title: string;
     description?: string;
     icon: string;
@@ -24,52 +25,54 @@ interface Props {
  * 
  * Csempe stílusú komponens
  * 
- * @param title 
- * @param description 
- * @param icon 
  * @returns 
  */
-function Tile({ title, description, icon, onClick }: Props) {
+function Tile(props: Props) {
+    /**
+     * Variables
+     */
+    const classNames: string = `${styles.container} ${props.className}`;
+
+
     /**
      * onClickHandler
      * 
-     * Kattintást kezelő funkció
      */
-    const onClickHandler = () => onClick ? onClick() : null;
+    const onClickHandler = () => props.onClick ? props.onClick() : null;
 
 
     /**
      * renderDescription
      * 
-     * Feltételes renderelés
+     * Vissza gomb feltételes renderelése
      * 
      * @returns 
      */
     const renderDescription = () => {
-        if (!description) return null;
+        if (!props.description) return null;
 
         return (
             <Text className={styles.description}>
-                {description}
+                {props.description}
             </Text>
         )
     }
 
 
     return (
-        <div className={styles.container} onClick={onClickHandler}>
+        <div className={classNames} onClick={onClickHandler}>
             {/* Címsor */}
             <Text className={styles.title}>
-                {title}
+                {props.title}
             </Text>
 
-            {/* Alcím */}
+            {/* Leírás */}
             {renderDescription()}
 
             {/* Ikon */}
             <Icon
                 className={styles.icon}
-                icon={icon}
+                icon={props.icon}
                 fixedWidth />
         </div>
     )

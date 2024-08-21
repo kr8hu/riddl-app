@@ -2,11 +2,10 @@
 import { Page } from 'react-onsenui';
 
 //Views
-import Home from '../Home';
 import Summary from '../Summary';
 
 //Components
-import Gameboard from '../../components/Gameboard';
+import Gameboard from './Gameboard';
 
 //Interfaces
 import IRiddle from '../../interfaces/Riddle';
@@ -20,37 +19,34 @@ import styles from './Playroom.module.css';
 */
 interface Props {
     navigator: any;
+    categoryId: string;
     riddles: Array<IRiddle>;
 }
 
 
 /**
+ * Playroom
  * 
+ * @param navigator 
+ * @param categoryId 
  * @param riddles 
  * @returns 
  */
-function Playroom({ navigator, riddles }: Props) {
+function Playroom({ navigator, categoryId, riddles }: Props) {
     /**
-     * handlePlayerLeave
+     * handleExit
      * 
-     * Játék elhagyását kezelő funkció
-     * 
+     * Kilépéskor lefutó funkció
+     *
+     * @param solved 
      */
-    const handleOnLeave = () => {
-        navigator.resetPage({ component: Home });
-    }
+    const handleExit = (solved: Array<any>) => {
+        console.log(solved);
 
-
-    /**
-     * handleOnSolved
-     * 
-     * Kategória teljesítésekor lefutó funkció
-     * 
-     */
-    const handleOnFinish = (solved: Array<any>) => {
         navigator.replacePage({
             component: Summary,
             props: {
+                categoryId,
                 riddles,
                 solved
             }
@@ -63,8 +59,7 @@ function Playroom({ navigator, riddles }: Props) {
             <div className={styles.container}>
                 <Gameboard
                     riddles={riddles}
-                    onFinished={handleOnFinish}
-                    onLeave={handleOnLeave} />
+                    onExit={handleExit} />
             </div>
         </Page>
     )

@@ -2,6 +2,7 @@
 <resources>
     <string name="appname">Riddl</string>
     <string name="loading">Betöltés</string>
+    <string name="categories_empty">Nincs megjeleníthető kategória</string>
     <string name="riddle_description">Leírás</string>
     <string name="riddle_no_description">Nem elérhető</string>
     <string name="gameboard_input_title">Írd be a megoldást</string>

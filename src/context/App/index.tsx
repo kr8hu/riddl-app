@@ -10,6 +10,9 @@ import {
     initialState
 } from './reducer';
 
+//Interfaces
+import IUserdata from '../../interfaces/Userdata';
+
 
 /**
  * Interfaces 
@@ -20,7 +23,7 @@ interface Props {
 }
 
 interface IAppState {
-    userdata: any;
+    userdata: IUserdata;
 }
 
 interface IAppContext {
