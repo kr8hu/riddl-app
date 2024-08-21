@@ -58,8 +58,4 @@ Indítsd el az alkalmazást az alábbi parancs futtatásával:
 npm run start
 ```
 
-## Licenc
-Jelenleg nincs megadott licenc.
-
-
 
