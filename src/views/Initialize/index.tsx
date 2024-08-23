@@ -206,10 +206,8 @@ function Initialize({ navigator }: Props) {
      */
     const checkApiVersion = async () => {
         try {
-            //Feltétel
             const query = { type: "main" };
-
-            //Konfiguráció lekérése és tárolása
+            
             const response = await ConfigurationService.findByQuery(query);
             const configuration: IConfiguration = response.payload;
 

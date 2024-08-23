@@ -18,7 +18,6 @@ const config: AxiosRequestConfig = {
 /** 
  * api
  * 
- * axios HTTP kérés létrehozása a megadott konfigurációval
 */
 const api = axios.create(config);
 

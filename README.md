@@ -4,6 +4,11 @@
 
 A **Riddl** egy interaktív játék, ahol a felhasználóknak képek és logók alapján kell megválaszolniuk a kérdéseket. A játék célja, hogy minél több helyes választ adjanak a bemutatott képek alapján.
 
+## Képernyőkép
+<div style="display: block; box-sizing: border-box;">
+<img src="/documents/screenshots/screencapture.gif" width="480px" height="auto">
+</div>
+
 ## Telepítés
 
 A szükséges csomagok telepítéséhez futtasd az alábbi parancsot:
